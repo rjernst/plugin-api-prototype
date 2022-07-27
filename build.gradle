@@ -1,0 +1,3 @@
+
+group 'org.elasticsearch'
+version '10.0-SNAPSHOT'

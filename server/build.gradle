@@ -1,0 +1,41 @@
+
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    exampleZip
+}
+
+String asmVersion = "9.2"
+dependencies {
+    implementation project(':api')
+    implementation "org.ow2.asm:asm-util:$asmVersion"
+    implementation "org.ow2.asm:asm-tree:$asmVersion"
+    implementation "org.ow2.asm:asm-commons:$asmVersion"
+    implementation "org.ow2.asm:asm-analysis:$asmVersion"
+    implementation "org.ow2.asm:asm:$asmVersion"
+
+    exampleZip project(path: ':example-plugin', configuration: 'zip')
+}
+
+File installedPlugins = new File(project.buildDir, "installed-plugins")
+
+def installExample = tasks.register("installExample", Copy)
+installExample.configure {
+    dependsOn(configurations.exampleZip)
+    from { zipTree(configurations.exampleZip.singleFile) }
+    into new File(installedPlugins, "example-plugin")
+}
+
+tasks.register("demo", JavaExec).configure {
+    dependsOn(installExample)
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.elasticsearch.server.Server'
+
+    args installedPlugins
+}

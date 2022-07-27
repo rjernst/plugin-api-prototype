@@ -1,0 +1,5 @@
+rootProject.name = 'plugin-api-prototype'
+include 'server'
+include 'example-plugin'
+include 'api'
+

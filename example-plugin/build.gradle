@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+configurations {
+    zip
+}
+
+dependencies {
+    compileOnly project(':api')
+}
+
+def buildZip = tasks.register('buildZip', Zip)
+buildZip.configure {
+    from tasks.named('jar')
+}
+
+artifacts {
+    zip buildZip
+}
