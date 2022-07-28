@@ -52,8 +52,8 @@ public class ComponentService {
             }
             System.out.println("  " + v);
         }
-        Map<Class<?>, Map<String, Class<?>>> componentInfo = new HashMap<>();
 
+        Map<Class<?>, Map<String, Class<?>>> componentInfo = new HashMap<>();
         try (Stream<Path> stream = Files.list(cratesDir)) {
             for (Path crateDir : stream.toList()) {
                 String crateName = crateDir.getFileName().toString();
